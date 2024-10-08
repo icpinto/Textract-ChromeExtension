@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture and Save Text</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 300px;
+            padding: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h3>Selected Text:</h3>
+    <textarea id="textArea"></textarea>
+
+    <label for="categorySelect">Select Category:</label>
+    <select id="categorySelect">
+        <option value="">Select a category</option>
+    </select>
+
+    <input type="text" id="categoryInput" placeholder="Add new category">
+    <input type="text" id="urlInput" placeholder="URL" readonly>
+    <button id="captureScreenshotButton">Capture Screenshot</button>
+    <img id="screenshot" style="max-width: 100%; margin-top: 10px;">
+    <button id="saveButton">Save Text</button>
+
+    <script src="popup.js"></script>
+</body>
+</html>
