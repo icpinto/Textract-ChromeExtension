@@ -20,11 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const categorySelect = document.getElementById('categorySelect');
         const categoryInput = document.getElementById('categoryInput');
 
-        // Populate the category dropdown from chrome.storage.local
-        chrome.storage.local.get(['userCategories'], function (data) {
-            let categories = data.userCategories || [];
-            populateCategoryDropdown(categories);
-        });
+        // Populate the category dropdown 
+        const userId = 'user123'; 
+        fetchCategories(userId);
 
         // Add new category to chrome.storage.local and MongoDB
         categoryInput.addEventListener('keypress', function (e) {
@@ -76,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Function to save new category to MongoDB
         function saveCategoryToMongoDB(category) {
-            fetch('http://localhost:3001/addCategory', {
+            fetch('http://localhost:3001/api/categories/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,6 +92,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error saving category to MongoDB:', error);
             });
         }
+
+        function fetchCategories(userId) {
+            fetch(`http://localhost:3001/api/categories/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    let categories = data.categories.map(item => item.category);
+                    console.log(categories);
+                    populateCategoryDropdown(categories); // Function to populate the dropdown
+                })
+                .catch(error => {
+                    console.error('Error fetching categories:', error);
+                });
+        }
+        
     
     });
 
@@ -104,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const screenshot = document.getElementById('screenshot').src;
         
 
-        fetch('http://localhost:3001/saveText', {
+        fetch('http://localhost:3001/api/content/saveText', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
